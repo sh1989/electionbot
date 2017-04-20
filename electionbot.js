@@ -47,11 +47,11 @@ class ElectionBot extends Bot {
   _formatChange(val) {
     if (val > 0) {
       return `\t:small_red_triangle: ${val}`;
-    } else if (val < 0)
+    } else if (val < 0) {
       return `\t:small_red_triangle_down: ${val * -1}`;
+    } else {
+      return '';
     }
-
-    return '';
   }
 
   _isFromSomeoneElse(message) {
