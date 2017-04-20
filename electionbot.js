@@ -32,16 +32,26 @@ class ElectionBot extends Bot {
           .then(response => {
             const result =
               `Average of last ${response.meta.sample} polls:\n` +
-              `:conservative: ${response.data.con}%\n` +
-              `:labour: ${response.data.lab}%\n` +
-              `:libdems: ${response.data.lib}%\n` +
-              `:ukip: ${response.data.ukip}%\n` +
-              `:green: ${response.data.green}%`;
+              `:conservative: ${response.data.con}%${this._formatChange(response.diff.con)}\n` +
+              `:labour: ${response.data.lab}%${this._formatChange(response.diff.lab)}\n` +
+              `:libdems: ${response.data.lib}%${this._formatChange(response.diff.lib)}\n` +
+              `:ukip: ${response.data.ukip}%${this._formatChange(response.diff.ukip)}\n` +
+              `:green: ${response.data.green}%${this._formatChange(response.diff.green)}`;
             this._postMessage(result);
           }, error => {
             this._postMessage(':exclamation: Whoops! Failed to get data');
           });
     }
+  }
+
+  _formatChange(val) {
+    if (val > 0) {
+      return `\t:small_red_triangle: ${val}`;
+    } else if (val < 0)
+      return `\t:small_red_triangle_down: ${val * -1}`;
+    }
+
+    return '';
   }
 
   _isFromSomeoneElse(message) {
