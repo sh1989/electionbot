@@ -1,77 +1,72 @@
 const BigNumber = require('bignumber.js');
 const scraper = require('table-scraper');
 const sampleSize = 7;
-
-function calcAvg(val, sampleSize) {
-  return val.dividedBy(sampleSize).round().toString();
-}
+const seed = {
+  con: new BigNumber(0),
+  lab: new BigNumber(0),
+  lib: new BigNumber(0),
+  ukip: new BigNumber(0),
+  green: new BigNumber(0)
+};
 
 function getPollingData() {
   return scraper.get('http://britainelects.com/polling/westminster/')
     .then(tableData => {
-      var pollTable = tableData[0];
+      // Normalize the first sampleSize + 1 rows
+      var pollTable = tableData[0]
+        .slice(0, sampleSize + 1)
+        .map(v => ({
+          con: new BigNumber(v['Con']),
+          lab: new BigNumber(v['Lab']),
+          lib: new BigNumber(v['LDem']),
+          ukip: new BigNumber(v['UKIP']),
+          green: new BigNumber(v['Grn'])
+        }));
 
-      var conAvg = new BigNumber(0);
-      var labAvg = new BigNumber(0);
-      var libAvg = new BigNumber(0);
-      var ukipAvg = new BigNumber(0);
-      var greenAvg = new BigNumber(0);
+      var pollOfPolls = pollTable
+        .slice(0, sampleSize)
+        .reduce(accumulate, seed);
 
-      for (var i = 0; i < sampleSize; i++) {
-        conAvg = conAvg.plus(new BigNumber(pollTable[i]['Con']));
-        labAvg = labAvg.plus(new BigNumber(pollTable[i]['Lab']));
-        libAvg = libAvg.plus(new BigNumber(pollTable[i]['LDem']));
-        ukipAvg = ukipAvg.plus(new BigNumber(pollTable[i]['UKIP']));
-        greenAvg = greenAvg.plus(new BigNumber(pollTable[i]['Grn']));
-      }
+      var prevPollOfPolls = pollTable
+        .slice(1, sampleSize + 1)
+        .reduce(accumulate, seed);
 
-      var conChange = conAvg.minus(
-          conAvg
-            .minus(new BigNumber(pollTable[0]['Con']))
-            .plus(new BigNumber(pollTable[sampleSize]['Con']))
-          );
-      var labChange = labAvg.minus(
-          labAvg
-            .minus(new BigNumber(pollTable[0]['Lab']))
-            .plus(new BigNumber(pollTable[sampleSize]['Lab']))
-          );
-      var libChange = libAvg.minus(
-          libAvg
-            .minus(new BigNumber(pollTable[0]['LDem']))
-            .plus(new BigNumber(pollTable[sampleSize]['LDem']))
-          );
-      var ukipChange = ukipAvg.minus(
-          ukipAvg
-            .minus(new BigNumber(pollTable[0]['UKIP']))
-            .plus(new BigNumber(pollTable[sampleSize]['UKIP']))
-          );
-      var greenChange = greenAvg.minus(
-          greenAvg
-            .minus(new BigNumber(pollTable[0]['Grn']))
-            .plus(new BigNumber(pollTable[sampleSize]['Grn']))
-          );
-
-      console.log('== Got Result');
       return {
-        data: {
-          con: calcAvg(conAvg, sampleSize),
-          lab: calcAvg(labAvg, sampleSize),
-          lib: calcAvg(libAvg, sampleSize),
-          ukip: calcAvg(ukipAvg, sampleSize),
-          green: calcAvg(greenAvg, sampleSize)
-        },
-        diff: {
-          con: calcAvg(conChange, sampleSize),
-          lab: calcAvg(labChange, sampleSize),
-          lib: calcAvg(libChange, sampleSize),
-          ukip: calcAvg(ukipChange, sampleSize),
-          green: calcAvg(greenChange, sampleSize)
-        },
+        data: calculatCurrent(pollOfPolls),
+        diff: calculateDiff(prevPollOfPolls, pollOfPolls),
         meta: {
           sample: sampleSize
         }
       };
     });
+}
+
+function average(val, sampleSize) {
+  return val.dividedBy(sampleSize).round().toString();
+}
+
+function accumulate(acc, val) {
+  var newObj = {};
+  Object.keys(acc).forEach(key => {
+    newObj[key] = acc[key].plus(val[key]);
+  });
+  return newObj;
+}
+
+function calculatCurrent(data) {
+  var newObj = {};
+  Object.keys(data).forEach(key => {
+    newObj[key] = average(data[key], sampleSize);
+  });
+  return newObj;
+}
+
+function calculateDiff(curr, prev) {
+  var newObj = {};
+  Object.keys(curr).forEach(key => {
+    newObj[key] = average(curr[key].minus(prev[key]), sampleSize);
+  });
+  return newObj;
 }
 
 module.exports = getPollingData;
