@@ -33,7 +33,7 @@ function getPollingData() {
 
       return {
         data: calculatCurrent(pollOfPolls),
-        diff: calculateDiff(prevPollOfPolls, pollOfPolls),
+        diff: calculateDiff(pollOfPolls, prevPollOfPolls),
         meta: {
           sample: sampleSize
         }

@@ -10,11 +10,12 @@
   },
   "devDependencies": {
     "cross-env": "^4.0.0",
-    "env-cmd": "^5.1.0"
+    "env-cmd": "^5.1.0",
+    "jest": "^19.0.2"
   },
   "scripts": {
     "start": "env-cmd ./.env.local node index.js",
-    "test": "node test.js"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC"
