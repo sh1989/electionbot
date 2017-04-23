@@ -16,11 +16,11 @@ function getPollingData() {
       var pollTable = tableData[0]
         .slice(0, sampleSize + 1)
         .map(v => ({
-          con: new BigNumber(v['Con']),
-          lab: new BigNumber(v['Lab']),
-          lib: new BigNumber(v['LDem']),
-          ukip: new BigNumber(v['UKIP']),
-          green: new BigNumber(v['Grn'])
+          con: toNumber(v['Con']),
+          lab: toNumber(v['Lab']),
+          lib: toNumber(v['LDem']),
+          ukip: toNumber(v['UKIP']),
+          green: toNumber(v['Grn'])
         }));
 
       var pollOfPolls = pollTable
@@ -39,6 +39,14 @@ function getPollingData() {
         }
       };
     });
+}
+
+function toNumber(val) {
+  try {
+    return new BigNumber(val);
+  } catch (e) {
+    return new BigNumber(0);
+  }
 }
 
 function average(val, sampleSize) {
