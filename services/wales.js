@@ -1,15 +1,16 @@
 const Scraper = require('./scraper');
+const formatRow = require('./formatRow');
 
 function getMessage() {
   return getData()
     .then(response => (
       `Average of last ${response.meta.sample} polls:\n` +
-      `:conservative: ${response.data.con}%${formatChange(response.diff.con)}\n` +
-      `:labour: ${response.data.lab}%${formatChange(response.diff.lab)}\n` +
-      `:plaid: ${response.data.pc}%${formatChange(response.diff.pc)}\n` +
-      `:libdems: ${response.data.ld}%${formatChange(response.diff.ld)}\n` +
-      `:ukip: ${response.data.ukip}%${formatChange(response.diff.ukip)}\n` +
-      `:green: ${response.data.grn}%${formatChange(response.diff.grn)}`
+      `${formatRow(response, 'con', ':conservative:')}\n` +
+      `${formatRow(response, 'lab', ':labour:')}\n` +
+      `${formatRow(response, 'pc', ':plaid:')}\n` +
+      `${formatRow(response, 'ld', ':libdems:')}\n` +
+      `${formatRow(response, 'ukip', ':ukip:')}\n` +
+      `${formatRow(response, 'grn', ':green:')}`
     ));
 }
 
@@ -17,16 +18,6 @@ function getData() {
   const scraper = new Scraper(7, 'http://britainelects.com/polling/wales/', 0, ['Con', 'Lab', 'PC', 'LD', 'UKIP', 'Grn']);
 
   return scraper.scrape();
-}
-
-function formatChange(val) {
-  if (val > 0) {
-    return `\t:small_red_triangle: ${val}`;
-  } else if (val < 0) {
-    return `\t:small_red_triangle_down: ${val * -1}`;
-  } else {
-    return '';
-  }
 }
 
 module.exports = {
