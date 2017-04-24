@@ -1,7 +1,7 @@
 'use strict';
 
 const Bot = require('slackbots');
-const getPollingData = require('./polling');
+const westminster = require('./services/westminster');
 
 class ElectionBot extends Bot {
   constructor(settings) {
@@ -26,31 +26,10 @@ class ElectionBot extends Bot {
       && this._isInLoliticsChannel(message)
       && this._mentionsMe(message)) {
         console.log('== Handling Query');
-        this.ws.send(JSON.stringify({ type: 'typing', channel: this.channel.id }));
+        this._sendTypingResponse();
 
-        getPollingData()
-          .then(response => {
-            const result =
-              `Average of last ${response.meta.sample} polls:\n` +
-              `:conservative: ${response.data.con}%${this._formatChange(response.diff.con)}\n` +
-              `:labour: ${response.data.lab}%${this._formatChange(response.diff.lab)}\n` +
-              `:libdems: ${response.data.lib}%${this._formatChange(response.diff.lib)}\n` +
-              `:ukip: ${response.data.ukip}%${this._formatChange(response.diff.ukip)}\n` +
-              `:green: ${response.data.green}%${this._formatChange(response.diff.green)}`;
-            this._postMessage(result);
-          }, error => {
-            this._postMessage(':exclamation: Whoops! Failed to get data');
-          });
-    }
-  }
-
-  _formatChange(val) {
-    if (val > 0) {
-      return `\t:small_red_triangle: ${val}`;
-    } else if (val < 0) {
-      return `\t:small_red_triangle_down: ${val * -1}`;
-    } else {
-      return '';
+        westminster.getMessage()
+          .then(this._postMessage, this._postError);
     }
   }
 
@@ -67,12 +46,20 @@ class ElectionBot extends Bot {
         && Boolean(message.text)
   }
 
+  _sendTypingResponse() {
+    this.ws.send(JSON.stringify({ type: 'typing', channel: this.channel.id }));
+  }
+
   _mentionsMe(message) {
     return message.text.indexOf(`<@${this.user.id}>`) > -1;
   }
 
   _postMessage(message) {
     this.postMessageToGroup(this.channel.name, message, { as_user: true });
+  }
+
+  _postError() {
+    this._postMessage(':exclamation: Whoops! Failed to get data');
   }
 }
 
