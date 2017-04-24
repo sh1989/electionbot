@@ -4,6 +4,7 @@ const Bot = require('slackbots');
 const westminster = require('./services/westminster');
 const scotland = require('./services/scotland');
 const indyref = require('./services/indyref');
+const wales = require('./services/wales');
 
 class ElectionBot extends Bot {
   constructor(settings) {
@@ -33,13 +34,14 @@ class ElectionBot extends Bot {
           action = scotland.getMessage;
         } else if (text.indexOf('indyref') >= 0) {
           action = indyref.getMessage;
+        } else if (text.indexOf('wales') >= 0) {
+          action = wales.getMessage;
         }
 
         if (action) {
-          action()
-            .then(
-              response => { this._postMessage(message.channel, response); },
-              () => { this._postError(message.channel); });
+          action().then(
+            response => { this._postMessage(message.channel, response); },
+            () => { this._postError(message.channel); });
         } else {
           this._postDontKnow(message.channel);
         }
@@ -72,12 +74,13 @@ class ElectionBot extends Bot {
   }
 
   _postDontKnow(channel) {
-    this._postmessage(
+    this._postMessage(
       channel,
       ':question: Sorry, I don\'t understand. Try again with one of these keywords:\n' +
       '*westminster* - For Westminster Polling Data\n' +
       '*scotland* - For Scottish Polling Data\n' +
-      '*indyref* - For Independence Referendum Polling Data'
+      '*indyref* - For Independence Referendum Polling Data\n' +
+      '*wales* - For Welsh Polling Data'
     );
   }
 }
