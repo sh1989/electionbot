@@ -7,14 +7,14 @@ function getMessage() {
       `Average of last ${response.meta.sample} polls:\n` +
       `${formatRow(response, 'con', ':conservative:')}\n` +
       `${formatRow(response, 'lab', ':labour:')}\n` +
-      `${formatRow(response, 'ldem', ':libdems:')}\n` +
+      `${formatRow(response, 'ld', ':libdems:')}\n` +
       `${formatRow(response, 'ukip', ':ukip:')}\n` +
       `${formatRow(response, 'grn', ':green:')}`
     ));
 }
 
 function getData() {
-  const scraper = new Scraper(7, 'http://britainelects.com/polling/westminster/', 0, ['Con', 'Lab', 'LDem', 'UKIP', 'Grn']);
+  const scraper = new Scraper(7, 'http://britainelects.com/polling/westminster/', 0, ['Con', 'Lab', 'LD', 'UKIP', 'Grn']);
 
   return scraper.scrape();
 }
