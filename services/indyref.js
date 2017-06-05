@@ -11,7 +11,7 @@ function getMessage() {
 }
 
 function getData() {
-  const scraper = new Scraper(7, 'http://britainelects.com/polling/scotland/', 1, ['Yes', 'No']);
+  const scraper = new Scraper(7, 'http://britainelects.com/polling/scotland/', 1, ['Yes', 'No'], 'Fieldwork');
 
   return scraper.scrape();
 }

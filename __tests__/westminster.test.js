@@ -4,15 +4,15 @@ const tableScraper = require('table-scraper');
 
 beforeAll(() => {
   tableScraper.setMock([[
-    { 'Fieldwork': '07 Jun 17', 'Con': 48, 'Lab': 24, 'LDem': 12, 'UKIP': 7, 'Grn': 2 },
-    { 'Fieldwork': '06 Jun 17', 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 8, 'Grn': 3 },
-    { 'Fieldwork': '05 Jun 17', 'Con': 44, 'Lab': 26, 'LDem': 10, 'UKIP': 11, 'Grn': 4 },
-    { 'Fieldwork': '04 Jun 17', 'Con': 44, 'Lab': 23, 'LDem': 12, 'UKIP': 10, 'Grn': 4 },
-    { 'Fieldwork': '03 Jun 17', 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 9, 'Grn': 4 },
-    { 'Fieldwork': '02 Jun 17', 'Con': 38, 'Lab': 29, 'LDem': 7, 'UKIP': 14, 'Grn': 5 },
-    { 'Fieldwork': '1 Jun 17', 'Con': 42, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 3 },
-    { 'Fieldwork': '31 May 17', 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 4 },
-    { 'Fieldwork': '30 May 17', 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 10, 'Grn': 2 },
+    { 'Fieldwork end date': '07 Jun 17', 'Con': 48, 'Lab': 24, 'LDem': 12, 'UKIP': 7, 'Grn': 2 },
+    { 'Fieldwork end date': '06 Jun 17', 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 8, 'Grn': 3 },
+    { 'Fieldwork end date': '05 Jun 17', 'Con': 44, 'Lab': 26, 'LDem': 10, 'UKIP': 11, 'Grn': 4 },
+    { 'Fieldwork end date': '04 Jun 17', 'Con': 44, 'Lab': 23, 'LDem': 12, 'UKIP': 10, 'Grn': 4 },
+    { 'Fieldwork end date': '03 Jun 17', 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 9, 'Grn': 4 },
+    { 'Fieldwork end date': '02 Jun 17', 'Con': 38, 'Lab': 29, 'LDem': 7, 'UKIP': 14, 'Grn': 5 },
+    { 'Fieldwork end date': '1 Jun 17', 'Con': 42, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 3 },
+    { 'Fieldwork end date': '31 May 17', 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 4 },
+    { 'Fieldwork end date': '30 May 17', 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 10, 'Grn': 2 },
   ]]);
 });
 

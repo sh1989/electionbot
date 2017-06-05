@@ -14,7 +14,7 @@ function getMessage() {
 }
 
 function getData() {
-  const scraper = new Scraper(7, 'http://britainelects.com/polling/westminster/', 0, ['Con', 'Lab', 'LDem', 'UKIP', 'Grn']);
+  const scraper = new Scraper(7, 'http://britainelects.com/polling/westminster/', 0, ['Con', 'Lab', 'LDem', 'UKIP', 'Grn'], 'Fieldwork end date');
 
   return scraper.scrape();
 }

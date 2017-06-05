@@ -5,11 +5,12 @@ const scraper = require('table-scraper');
 const moment = require('moment');
 
 class Scraper {
-  constructor(sampleSize, url, tableKey, columnKeys) {
+  constructor(sampleSize, url, tableKey, columnKeys, dateKey) {
     this.sampleSize = sampleSize;
     this.url = url;
     this.tableKey = tableKey;
     this.columnKeys = columnKeys;
+    this.dateKey = dateKey;
   }
 
   scrape() {
@@ -97,7 +98,7 @@ class Scraper {
   pollRange(data) {
     const dates = data
       .slice(0, this.sampleSize)
-      .map(d => new moment(d['Fieldwork'], 'DD MMM YY'))
+      .map(d => new moment(d[this.dateKey], 'DD MMM YY'))
       .sort(this.sortByDateDesc);
     return {
       to: dates[0].format('DD MMM YY'),

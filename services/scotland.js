@@ -13,7 +13,7 @@ function getMessage() {
 }
 
 function getData() {
-  const scraper = new Scraper(7, 'http://britainelects.com/polling/scotland/', 0, ['SNP', 'Lab', 'Con', 'LD']);
+  const scraper = new Scraper(7, 'http://britainelects.com/polling/scotland/', 0, ['SNP', 'Lab', 'Con', 'LD'], 'Fieldwork');
 
   return scraper.scrape();
 }

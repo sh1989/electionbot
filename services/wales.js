@@ -15,7 +15,7 @@ function getMessage() {
 }
 
 function getData() {
-  const scraper = new Scraper(7, 'http://britainelects.com/polling/wales/', 0, ['Con', 'Lab', 'PC', 'LD', 'UKIP', 'Grn']);
+  const scraper = new Scraper(7, 'http://britainelects.com/polling/wales/', 0, ['Con', 'Lab', 'PC', 'LD', 'UKIP', 'Grn'], 'Fieldwork');
 
   return scraper.scrape();
 }
