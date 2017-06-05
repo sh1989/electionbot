@@ -4,7 +4,7 @@ const formatRow = require('./formatRow');
 function getMessage() {
   return getData()
     .then(response => (
-      `Average of last ${response.meta.sample} polls:\n` +
+      `Average of last ${response.meta.sample} polls (${response.meta.from} - ${response.meta.to}):\n` +
       `${formatRow(response, 'snp', ':snp:')}\n` +
       `${formatRow(response, 'con', ':conservative:')}\n` +
       `${formatRow(response, 'lab', ':labour:')}\n` +

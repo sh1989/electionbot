@@ -4,15 +4,15 @@ const tableScraper = require('table-scraper');
 
 beforeAll(() => {
   tableScraper.setMock([[
-    { 'Con': 48, 'Lab': 24, 'LDem': 12, 'UKIP': 7, 'Grn': 2 },
-    { 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 8, 'Grn': 3 },
-    { 'Con': 44, 'Lab': 26, 'LDem': 10, 'UKIP': 11, 'Grn': 4 },
-    { 'Con': 44, 'Lab': 23, 'LDem': 12, 'UKIP': 10, 'Grn': 4 },
-    { 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 9, 'Grn': 4 },
-    { 'Con': 38, 'Lab': 29, 'LDem': 7, 'UKIP': 14, 'Grn': 5 },
-    { 'Con': 42, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 3 },
-    { 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 4 },
-    { 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 10, 'Grn': 2 },
+    { 'Fieldwork': '07 Jun 17', 'Con': 48, 'Lab': 24, 'LDem': 12, 'UKIP': 7, 'Grn': 2 },
+    { 'Fieldwork': '06 Jun 17', 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 8, 'Grn': 3 },
+    { 'Fieldwork': '05 Jun 17', 'Con': 44, 'Lab': 26, 'LDem': 10, 'UKIP': 11, 'Grn': 4 },
+    { 'Fieldwork': '04 Jun 17', 'Con': 44, 'Lab': 23, 'LDem': 12, 'UKIP': 10, 'Grn': 4 },
+    { 'Fieldwork': '03 Jun 17', 'Con': 46, 'Lab': 25, 'LDem': 11, 'UKIP': 9, 'Grn': 4 },
+    { 'Fieldwork': '02 Jun 17', 'Con': 38, 'Lab': 29, 'LDem': 7, 'UKIP': 14, 'Grn': 5 },
+    { 'Fieldwork': '1 Jun 17', 'Con': 42, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 3 },
+    { 'Fieldwork': '31 May 17', 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 11, 'Grn': 4 },
+    { 'Fieldwork': '30 May 17', 'Con': 43, 'Lab': 25, 'LDem': 11, 'UKIP': 10, 'Grn': 2 },
   ]]);
 });
 
@@ -35,7 +35,9 @@ test('parses polling table', () => {
           grn: "0"
         },
         meta: {
-          sample: 7
+          sample: 7,
+          from: '01 Jun 17',
+          to: '07 Jun 17'
         }
       });
     });
@@ -45,7 +47,7 @@ test('formats message', () => {
   return westminster.getMessage()
     .then(result => {
       expect(result).toEqual(
-        'Average of last 7 polls:\n' +
+        'Average of last 7 polls (01 Jun 17 - 07 Jun 17):\n' +
         ':conservative: 44%\t:small_red_triangle: 1\n' +
         ':labour: 25%\n' +
         ':libdems: 11%\n' +
