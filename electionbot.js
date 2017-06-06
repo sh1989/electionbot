@@ -5,6 +5,7 @@ const westminster = require('./services/westminster');
 const scotland = require('./services/scotland');
 const indyref = require('./services/indyref');
 const wales = require('./services/wales');
+const seats = require('./services/seats');
 
 class ElectionBot extends Bot {
   constructor(settings) {
@@ -36,6 +37,8 @@ class ElectionBot extends Bot {
           action = indyref.getMessage;
         } else if (text.indexOf('wales') >= 0) {
           action = wales.getMessage;
+        } else if (text.indexOf('seats') >= 0) {
+          action = seats.getMessage;
         }
 
         if (action) {
@@ -80,7 +83,8 @@ class ElectionBot extends Bot {
       '*westminster* - For Westminster Polling Data\n' +
       '*scotland* - For Scottish Polling Data\n' +
       '*indyref* - For Independence Referendum Polling Data\n' +
-      '*wales* - For Welsh Polling Data'
+      '*wales* - For Welsh Polling Data',
+      '*seats* - For Westminster Seat Predictions'
     );
   }
 }
